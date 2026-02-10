@@ -1,0 +1,93 @@
+/* 전체 화면 중앙 정렬 */
+body {
+  margin: 0;
+  height: 100vh;
+  background-color: #eef3ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+/* 카드 영역 */
+.login-box {
+  width: 380px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* 원형 아이콘 */
+.icon {
+  width: 60px;
+  height: 60px;
+  background-color: #3b5cff;
+  color: white;
+  font-size: 28px;
+  line-height: 60px;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+}
+
+/* 제목 */
+h1 {
+  margin: 10px 0;
+}
+
+/* 설명 글 */
+.desc {
+  font-size: 0.9em;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+/* 입력 영역 */
+form {
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px;
+  font-size: 0.9em;
+}
+
+input {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+/* 로그인 버튼 */
+button {
+  width: 100%;
+  height: 45px;
+  margin-top: 20px;
+  background-color: #000;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #333;
+}
+
+/* 회원가입 */
+.join {
+  margin-top: 20px;
+  font-size: 0.85em;
+}
+
+.join a {
+  color: #3b5cff;
+  text-decoration: none;
+  font-weight: bold;
+}
