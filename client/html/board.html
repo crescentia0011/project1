@@ -2,10 +2,50 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>게시글 목록</title>
+    <!--CSS 연결-->
+    <link rel="stylesheet" href="/css/board.css" />
   </head>
   <body>
-    <h1>로그인 성공 시 등장</h1>
+    <!-- 헤더 연결 -->
+    <div id="header-area"></div>
+
+    <main class="container">
+      <div class="board-header">
+        <h2>게시글 목록</h2>
+        <button class="write-btn">+ 글쓰기</button>
+      </div>
+
+      <!-- 검색 -->
+      <div class="search-box">
+        <input type="text" placeholder="게시글 검색..." />
+        <button class="search-btn">검색</button>
+      </div>
+
+      <!-- 게시글 테이블 -->
+      <table class="board-table">
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th class="title">제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+            <th>조회수</th>
+          </tr>
+        </thead>
+        <tbody id="List"></tbody>
+      </table>
+
+      <!-- 페이지네이션 -->
+      <div class="pagination">
+        <button class="active">1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>4</button>
+        <button>5</button>
+      </div>
+    </main>
   </body>
+  <script src="/js/header.js"></script>
+  <script src="/js/board.js"></script>
 </html>

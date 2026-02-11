@@ -1,0 +1,39 @@
+const backList = document.querySelector(".back-link");
+//현재 url의 정보를 가져와서 객체처럼 저장
+//URL에서 ?no=5 같은 쿼리 추출
+const params = new URLSearchParams(location.search);
+const no = params.get("no"); //객체를 문자열로 반환
+const spans = document.querySelectorAll(".detail-info span"); //div안에 span태그 다 가져옴
+const content = document.querySelector(".detail-content");
+
+// 목록을 클릭하면 글 목록 페이지로 이동
+backList.addEventListener("click", function () {
+  location.href = "/html/board.html";
+});
+
+fetch("http://localhost:3000/board/detail/" + no, {
+  //이거 없으면 요청자 누군지 모름
+  //세션 쿠키 가져오는 방법
+  credentials: "include",
+})
+  .then((resp) => resp.json())
+  .then((data) => {
+    const post = data.post;
+    console.log("글제목", post.TITLE);
+    document.querySelector(".detail-title").innerText = post.TITLE; //글제목
+    spans[0].innerText = "👤 " + post.WRITER; //작성자
+    spans[1].innerText = "📅 " + post.CREATED_AT; //작성시간
+    spans[2].innerText = "👁 " + post.VIEWS; //조회수
+    content.innerText = post.CONTENT; //내용
+    // 여기서 버튼 제어
+    if (data.isOwner) {
+      document.querySelector(".edit-btn").style.display = "inline-block";
+      document.querySelector(".delete-btn").style.display = "inline-block";
+    } else {
+      document.querySelector(".edit-btn").style.display = "none";
+      document.querySelector(".delete-btn").style.display = "none";
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+  });

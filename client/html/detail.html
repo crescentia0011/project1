@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>게시글 상세</title>
+    <link rel="stylesheet" href="/css/board.css" />
+    <link rel="stylesheet" href="/css/detail.css" />
+  </head>
+  <body>
+    <!-- 헤더 영역 (공통) -->
+    <div id="header-area"></div>
+    <script src="/js/header.js"></script>
+
+    <div class="container">
+      <!-- 목록으로 -->
+      <div class="back-link">목록으로</div>
+
+      <!-- 게시글 박스 -->
+      <div class="detail-box">
+        <!-- 제목 -->
+        <h2 class="detail-title"></h2>
+
+        <!-- 작성 정보 -->
+        <div class="detail-info">
+          <span>👤</span>
+          <span>📅 </span>
+          <span>👁</span>
+        </div>
+
+        <!-- 내용 -->
+        <div class="detail-content"></div>
+
+        <!-- 버튼 영역 -->
+        <div class="detail-buttons">
+          <button class="edit-btn">✏ 수정</button>
+          <button class="delete-btn">🗑 삭제</button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="/js/detail.js"></script>
+</html>

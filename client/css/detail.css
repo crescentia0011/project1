@@ -1,0 +1,61 @@
+/* ===== 상세 페이지 ===== */
+
+.back-link {
+  margin-bottom: 20px;
+  color: #555;
+  cursor: pointer;
+}
+
+.detail-box {
+  border: 1px solid #eee;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.detail-title {
+  padding: 20px;
+  margin: 0;
+  border-bottom: 1px solid #eee;
+  font-size: 22px;
+}
+
+.detail-info {
+  padding: 12px 20px;
+  font-size: 14px;
+  color: #777;
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-content {
+  padding: 20px;
+  line-height: 1.8;
+  min-height: 250px;
+}
+
+.detail-buttons {
+  padding: 16px 20px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.edit-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
