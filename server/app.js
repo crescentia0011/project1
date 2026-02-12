@@ -13,6 +13,7 @@ app.use(
     secret: "my-secret-key", // 아무 문자열 OK
     resave: false,
     saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 }, // 세션 만료시간 1시간
   }),
 );
 app.use(cors()); // CORS 설정 (모든 도메인 허용)
@@ -266,16 +267,105 @@ app.get("/board/detail/:no", async (req, res) => {
 });
 
 // 글 작성 API
-app.post("/board", async (req, res) => {});
+app.post("/board/form", async (req, res) => {
+  // 로그인 확인 처리
+  if (!req.session.user) {
+    return res.json({ retCode: "FAIL", message: "로그인 필요" });
+  }
+  const conn = await getConnection();
+  // 2. 요청 데이터 받기
+  const { title, content } = req.body;
+  const writer = req.session.user.user_id; // 작성자
+
+  try {
+    const result = await conn.execute(
+      `INSERT INTO board(
+              board_no,
+              title,
+              content,
+              writer
+        )
+      VALUES( BOARD_SEQ.NEXTVAL,
+              :title,
+              :content,
+              :writer
+      )`,
+      {
+        title,
+        content,
+        writer,
+      },
+      { autoCommit: true },
+    );
+    res.json({ retCode: "OK" });
+  } catch (err) {
+    console.log(err);
+    res.json({ retCode: "FAIL", message: "DB오류" });
+  } finally {
+    conn.release();
+  }
+});
 
 // 글 수정 API
-app.put("/board/:no", async (req, res) => {
-  // Day 3에 작성 예정 (시간 있으면)
+app.put("/board/update/:no", async (req, res) => {
+  const { title, content } = req.body; //바디로 받은거 분해
+  const no = Number(req.params.no); //글번호
+  console.log(req.body);
+  console.log(title);
+  console.log(content);
+  console.log(no);
+  const conn = await getConnection();
+  try {
+    const result = await conn.execute(
+      `UPDATE board
+      SET title = :title,
+          content = :content
+      WHERE board_no = :no`,
+      {
+        title,
+        content,
+        no,
+      },
+      {
+        autoCommit: true,
+      },
+    );
+    res.json({ retCode: "OK" });
+  } catch (err) {
+    res.json({ retCode: "FAIL", message: "수정 실패" });
+  } finally {
+    conn.release();
+  }
 });
 
 // 글 삭제 API (논리 삭제)
-app.delete("/board/:no", async (req, res) => {
-  // Day 3에 작성 예정 (시간 있으면)
+app.delete("/board/delete/:no", async (req, res) => {
+  const no = Number(req.params.no);
+
+  if (!req.session.user) {
+    return res.status(401).json({ message: "로그인 필요" });
+  }
+  const conn = await getConnection();
+  try {
+    const result = await conn.execute(
+      `
+      DELETE
+      FROM board
+      WHERE board_no = :no      
+      `,
+      {
+        no,
+      },
+      {
+        autoCommit: true,
+      },
+    );
+    res.json({ retCode: "OK" });
+  } catch (err) {
+    res.json({ retCode: "FAIL", message: "삭제 실패" });
+  } finally {
+    conn.release();
+  }
 });
 
 // ===========================

@@ -2,6 +2,7 @@ fetch("/html/header.html")
   .then((res) => res.text())
   .then((html) => {
     const headerArea = document.getElementById("header-area");
+
     if (headerArea) {
       headerArea.innerHTML = html;
 
@@ -32,5 +33,13 @@ fetch("/html/header.html")
             }
           });
       });
+      //5. 홈으로 이동
+      const home = document.querySelector(".logo");
+
+      if (home) {
+        home.addEventListener("click", function () {
+          location.href = "/html/board.html";
+        });
+      }
     }
   });

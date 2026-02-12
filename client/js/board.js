@@ -1,6 +1,11 @@
 let tbody = document.querySelector("#List");
+let writeBtn = document.querySelector(".write-btn");
 let page = 1;
-
+//글쓰기 버튼
+writeBtn.addEventListener("click", function () {
+  location.href = "/html/form.html";
+});
+//--------------------------------------------------------
 fetch(`http://localhost:3000/users/board/${page}`) //
   .then((resp) => resp.json())
   .then((data) => {

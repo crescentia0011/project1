@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시판 작성</title>
+    <link rel="stylesheet" href="/css/board.css" />
+    <!-- Toast UI Editor CSS -->
+    <link
+      rel="stylesheet"
+      href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"
+    />
+  </head>
+  <body>
+    <!-- 헤더 불러오기 -->
+    <div id="header-area"></div>
+    <script src="/js/header.js"></script>
+
+    <main>
+      <div id="mainForm">
+        <h2>게시글 작성</h2>
+        <form
+          id="boardForm"
+          onsubmit="
+            submitForm();
+            return false;
+          "
+        >
+          <div id="titleDiv">
+            <label for="title">제목</label>
+            <input type="text" id="title" placeholder="제목 입력" />
+          </div>
+          <!-- 에디터 영역 -->
+          <label for="content">내용</label>
+          <div id="editor"></div>
+          <div class="form-buttons">
+            <button
+              type="button"
+              class="cancel-btn"
+              onclick="window.history.back()"
+            >
+              취소
+            </button>
+            <button type="submit" class="write-btn">작성하기</button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <!-- Toast UI Editor JS -->
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <!-- 에디터 초기화 및 폼 처리 JS -->
+    <script src="/js/editor.js"></script>
+    <script src="/js/form.js"></script>
+  </body>
+</html>
