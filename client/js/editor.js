@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     } else {
       // 작성 API 호출
-      fetch("http://localhost:3000/board/form", {
+      fetch("/board/form", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, content }), // <-- body는 JSON 문자열만
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("내용:", content);
 
     // 완료 메시지
-    alert("게시글 작성 완료! (콘솔 확인)");
+    alert("게시글 작성 완료! ");
   };
 
   //글 등록 api

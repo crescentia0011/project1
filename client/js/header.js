@@ -1,7 +1,7 @@
 fetch("/html/header.html")
   .then((res) => res.text())
   .then((html) => {
-    const headerArea = document.getElementById("header-area");
+    const headerArea = document.getElementById("header-area"); //헤더영역
 
     if (headerArea) {
       headerArea.innerHTML = html;
@@ -22,7 +22,7 @@ fetch("/html/header.html")
       // 2. 클릭 이벤트 연결
       logoutBtn.addEventListener("click", function () {
         // 3. 서버에 로그아웃 요청
-        fetch("http://localhost:3000/users/logout", {
+        fetch("/users/logout", {
           method: "POST",
         })
           .then((res) => res.json())

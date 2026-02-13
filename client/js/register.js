@@ -54,7 +54,7 @@ form.addEventListener("submit", function (e) {
 });
 
 function insertUser() {
-  fetch("http://localhost:3000/users/register", {
+  fetch("/users/register", {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

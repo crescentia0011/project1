@@ -75,8 +75,6 @@ app.post("/users/register", async (req, res) => {
     res.json({ retCode: "FAIL" });
   }
   conn.close();
-
-  // 일단 응답만 보내기
 });
 
 // 로그인 API
@@ -114,7 +112,6 @@ app.post("/users/login", async (req, res) => {
       `SELECT password, user_name FROM users WHERE user_id = :user_id`,
       { user_id },
     );
-
     console.log("DB 조회 결과:", result.rows);
     // 아이디가 DB에 없는 경우
     // 조회 결과가 0행이면 그런 아이디 없음
@@ -126,7 +123,6 @@ app.post("/users/login", async (req, res) => {
     // Oracle은 컬럼명을 대문자로 준다고 함
     const dbPw = result.rows[0].PASSWORD;
     console.log("DB에 저장된 비밀번호:", dbPw);
-
     // 비밀번호 비교
     // bcrypt.compare(입력한비밀번호, DB암호)
     // 같으면 true / 다르면 false
@@ -299,7 +295,6 @@ app.post("/board/form", async (req, res) => {
     );
     res.json({ retCode: "OK" });
   } catch (err) {
-    console.log(err);
     res.json({ retCode: "FAIL", message: "DB오류" });
   } finally {
     conn.release();
@@ -310,10 +305,6 @@ app.post("/board/form", async (req, res) => {
 app.put("/board/update/:no", async (req, res) => {
   const { title, content } = req.body; //바디로 받은거 분해
   const no = Number(req.params.no); //글번호
-  console.log(req.body);
-  console.log(title);
-  console.log(content);
-  console.log(no);
   const conn = await getConnection();
   try {
     const result = await conn.execute(
@@ -334,14 +325,14 @@ app.put("/board/update/:no", async (req, res) => {
   } catch (err) {
     res.json({ retCode: "FAIL", message: "수정 실패" });
   } finally {
-    conn.release();
+    conn.release(); //좀 더 안전하게 처리함 그냥 써본거임
   }
 });
 
 // 글 삭제 API (논리 삭제)
 app.delete("/board/delete/:no", async (req, res) => {
   const no = Number(req.params.no);
-
+  //로그인 세션 없으면 처리
   if (!req.session.user) {
     return res.status(401).json({ message: "로그인 필요" });
   }
@@ -367,13 +358,49 @@ app.delete("/board/delete/:no", async (req, res) => {
     conn.release();
   }
 });
-
+//검색기능
+app.get(`/users/board/find/:keyword`, async (req, res) => {
+  //검색어
+  const searchBox = req.params.keyword;
+  const page = Number(req.query.page) || 1;
+  //DB
+  const conn = await getConnection();
+  try {
+    const { rows } = await conn.execute(
+      `SELECT
+        b.board_no,
+        b.title,
+        b.content,
+        u.user_name AS writer,
+        TO_CHAR(b.created_at, 'YYYY-MM-DD') AS created_at,
+        b.views
+    FROM board b
+    JOIN users u
+        ON b.writer = u.user_id
+    WHERE b.title LIKE :search
+        OR b.content LIKE :search
+    ORDER BY b.board_no DESC
+    OFFSET (:page - 1) * 10 ROWS
+    FETCH NEXT 10 ROWS ONLY`,
+      {
+        search: `%${searchBox}%`, //LIKE에서 %% 쓰려고 이렇게 함
+        page: page,
+      },
+    );
+    res.json(rows); //응답처리
+  } catch (err) {
+    res.status(500).json({ error: "서버 오류" });
+  } finally {
+    conn.close();
+  }
+});
 // ===========================
 // 서버 시작
 // ===========================
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 서버 실행: http://localhost:${PORT}`);
+  console.log(`🚀 로그인: http://localhost:${PORT}/html/login.html`);
   console.log(`📄 회원가입: http://localhost:${PORT}/html/register.html`);
   testConnection();
 });
